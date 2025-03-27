@@ -27,7 +27,7 @@ services:
 
   backend:
     build:
-      context: ./MyCloud_Backend
+      context: ../MyCloud_Backend
     container_name: mycloud_backend
     ports:
       - "8000:8000"
@@ -37,10 +37,10 @@ services:
              gunicorn --bind 0.0.0.0:8000 --workers 3 backend.wsgi"
 
     volumes:
-      - ./MyCloud_Backend:/app
+      - ../MyCloud_Backend:/app
       - static_volume:/app/static
     env_file:
-      - ./MyCloud_Backend/.env
+      - ../MyCloud_Backend/.env
     depends_on:
       db:
         condition: service_healthy
