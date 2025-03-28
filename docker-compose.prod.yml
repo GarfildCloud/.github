@@ -9,8 +9,8 @@ services:
     image: postgres:15-alpine
     container_name: mycloud_db
     restart: always
-    ports:
-      - "5432:5432"
+#    ports:
+#      - "5432:5432"
     environment:
       POSTGRES_USER: mycloud_admin
       POSTGRES_PASSWORD: 5tr0ngP@ss
@@ -29,8 +29,8 @@ services:
     build:
       context: ../MyCloud_Backend
     container_name: mycloud_backend
-    ports:
-      - "8000:8000"
+#    ports:
+#      - "8000:8000"
     command: >
       sh -c "python manage.py migrate &&
              python manage.py collectstatic --noinput &&
