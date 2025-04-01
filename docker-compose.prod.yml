@@ -42,6 +42,7 @@ services:
     volumes:
       - ../MyCloud_Backend:/app
       - static_volume:/app/static
+#      - ../logs/backend:/app/logs
     env_file:
       - ../MyCloud_Backend/.env
     depends_on:
