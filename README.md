@@ -145,7 +145,4 @@ docker-compose -f docker-compose.prod.yml up -d --build
 Автор: Алексей Марулиди  
 GitHub: [https://github.com/GarfildCloud](https://github.com/GarfildCloud)
 
----
-
-Проект завершён и полностью соответствует требованиям дипломной работы.
 
