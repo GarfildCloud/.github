@@ -142,7 +142,7 @@ docker-compose -f docker-compose.prod.yml up -d --build
 ---
 
 ## Контакты
-Автор: GarfildCloud  
+Автор: Алексей Марулиди  
 GitHub: [https://github.com/GarfildCloud](https://github.com/GarfildCloud)
 
 ---
