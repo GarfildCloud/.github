@@ -101,8 +101,8 @@ npm run dev
 ```
 
 #### Важно:
-- В `src/api/axios.ts` изменить базовый URL с `http://backend:8000` на `http://localhost:8000`.
-- Убедитесь, что настроен CORS в backend для `localhost:3000`.
+- В `src/config.ts` изменить базовый URL с `http://backend:8000` на `http://localhost:8000`.
+- Убедитесь, что настроен CORS в backend для `localhost:5173`.
 
 ---
 
