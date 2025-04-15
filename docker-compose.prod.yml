@@ -1,54 +1,6 @@
-# version: '3.9'
-
-networks:
-  mycloud-network:
-    driver: bridge
+#version: '3.9'
 
 services:
-  db:
-    image: postgres:15-alpine
-    container_name: mycloud_db
-    restart: always
-#    ports:
-#      - "5432:5432"
-    environment:
-      POSTGRES_USER: mycloud_admin
-      POSTGRES_PASSWORD: 5tr0ngP@ss
-      POSTGRES_DB: mycloud_db
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - mycloud-network
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U mycloud_admin -d mycloud_db" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
-  backend:
-    build:
-      context: ../MyCloud_Backend
-    container_name: mycloud_backend
-#    ports:
-#      - "8000:8000"
-    command: >
-      sh -c "
-             python manage.py migrate &&
-             python manage.py collectstatic --noinput &&
-             gunicorn --bind 0.0.0.0:8000 --workers 3 backend.wsgi"
-
-    volumes:
-      - ../MyCloud_Backend:/app
-      - static_volume:/app/static
-#      - ../logs/backend:/app/logs
-    env_file:
-      - ../MyCloud_Backend/.env
-    depends_on:
-      db:
-        condition: service_healthy
-    networks:
-      - mycloud-network
-
   nginx:
     build:
       context: ../MyCloud_Frontend
@@ -64,7 +16,48 @@ services:
     networks:
       - mycloud-network
 
+  backend:
+    build:
+      context: ../MyCloud_Backend
+    container_name: mycloud_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+    env_file:
+      - ../MyCloud_Backend/.env.prod
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - mycloud-network
+
+  db:
+    image: postgres:15-alpine
+    container_name: mycloud_db
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=mycloud_db
+      - POSTGRES_USER=mycloud_admin
+      - POSTGRES_PASSWORD=5tr0ngP@ss
+    networks:
+      - mycloud-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U mycloud_admin -d mycloud_db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
 volumes:
   postgres_data:
   static_volume:
   media_volume:
+
+networks:
+  mycloud-network:
+    driver: bridge
