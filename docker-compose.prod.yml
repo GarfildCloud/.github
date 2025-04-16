@@ -13,6 +13,7 @@ services:
     volumes:
       - static_volume:/app/static
       - media_volume:/app/media
+      - ./frontend/logs:/var/log/nginx
     networks:
       - mycloud-network
 
